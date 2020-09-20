@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "652961086584",
+    "firebase_url": "https://monthtools.firebaseio.com",
+    "project_id": "monthtools",
+    "storage_bucket": "monthtools.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:652961086584:android:39102f399b0b4e8c53c18d",
+        "android_client_info": {
+          "package_name": "fr.pcmaintenance.monthtools"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "652961086584-pl0edtvdt4bgnv26jnf7am4a8m0s2lvg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsP40GhnOgSGBKat5HUUqj9b_0JH-MTN8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "652961086584-pl0edtvdt4bgnv26jnf7am4a8m0s2lvg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
