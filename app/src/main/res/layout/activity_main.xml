@@ -13,10 +13,11 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/Mois"
             android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Septembre"
+            android:text="Janvier"
             android:textSize="50sp"
             android:fontFamily="sans-serif-black"
             android:textColor="#FFFFFF"/>

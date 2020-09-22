@@ -7,14 +7,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +28,6 @@ import fr.pcmaintenance.monthtools.Modele.Transaction;
 public class MainActivity extends AppCompatActivity {
 
     private ListView listeAchat;
-    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +41,25 @@ public class MainActivity extends AppCompatActivity {
         TransactionAdapter adapter = new TransactionAdapter(MainActivity.this, transactions);
         listeAchat.setAdapter(adapter);
 
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        List<String> month = new ArrayList<String>();
+        month.add("Janvier");
+        month.add("Février");
+        month.add("Mars");
+        month.add("Avril");
+        month.add("Mai");
+        month.add("Juin");
+        month.add("Juillet");
+        month.add("Août");
+        month.add("Septembre");
+        month.add("Octobre");
+        month.add("Novembre");
+        month.add("Décembre");
+
+        TextView mois = findViewById(R.id.Mois);
+        mois.setText(month.get(Calendar.getInstance().get(Calendar.MONTH)));
+
 
         // Create a new user with a first and last name
         Map<String, Object> user = new HashMap<>();
