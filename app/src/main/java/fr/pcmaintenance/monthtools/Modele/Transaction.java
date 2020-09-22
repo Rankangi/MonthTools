@@ -1,21 +1,21 @@
 package fr.pcmaintenance.monthtools.Modele;
 
 public class Transaction {
-    private int date;
+    private long date;
     private String pseudo;
     private String price;
 
-    public Transaction(int date, String pseudo, String price){
+    public Transaction(long date, String pseudo, String price){
         this.date = date;
         this.pseudo = pseudo;
         this.price = price;
     }
 
-    public int getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(int date) {
+    public void setDate(long date) {
         this.date = date;
     }
 

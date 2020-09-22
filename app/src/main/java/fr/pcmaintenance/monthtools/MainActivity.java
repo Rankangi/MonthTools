@@ -9,15 +9,16 @@ import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,8 @@ import fr.pcmaintenance.monthtools.Modele.Transaction;
 public class MainActivity extends AppCompatActivity {
 
     private ListView listeAchat;
+    private List<DocumentSnapshot> listDoc;
+    private List<Transaction> transactions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +38,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         listeAchat = findViewById(R.id.listeachat);
-
-        List<Transaction> transactions = genererTransactions();
-
-        TransactionAdapter adapter = new TransactionAdapter(MainActivity.this, transactions);
-        listeAchat.setAdapter(adapter);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -61,19 +59,31 @@ public class MainActivity extends AppCompatActivity {
         mois.setText(month.get(Calendar.getInstance().get(Calendar.MONTH)));
 
 
+        db.collection("Transactions").document(String.valueOf(Calendar.getInstance().get(Calendar.YEAR))).collection(month.get(Calendar.getInstance().get(Calendar.MONTH))).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()){
+                    listDoc = task.getResult().getDocuments();
+                    genererTransactions(listDoc);
+                    TransactionAdapter adapter = new TransactionAdapter(MainActivity.this, transactions);
+                    listeAchat.setAdapter(adapter);
+                }
+            }
+        });
+
+
         // Create a new user with a first and last name
         Map<String, Object> user = new HashMap<>();
-        user.put("first", "Ada");
-        user.put("last", "Lovelace");
-        user.put("born", 1814);
-
-// Add a new document with a generated ID
-        db.collection("Transactions")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        user.put("Date", Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        user.put("User", "Océane");
+        user.put("Montant", -50);
+        // Add a new document with a generated ID
+        db.collection("Transactions").document("2020").collection("Septembre").document("1")
+                .set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d("TAG", "DocumentSnapshot added with ID: " + documentReference.getId());
+                    public void onSuccess(Void aVoid) {
+                        Log.d("TAG", "DocumentSnapshot added with ID: " + "1");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -82,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
                         Log.w("TAG", "Error adding document", e);
                     }
                 });
-
     }
 
     @Override
@@ -90,11 +99,11 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
     }
 
-    private List<Transaction> genererTransactions() {
-        List<Transaction> transactions = new ArrayList<Transaction>();
-        transactions.add(new Transaction(8,"Océane","50"));
-        transactions.add(new Transaction(9,"Mathieu","-50"));
-        return transactions;
+    private void genererTransactions(List<DocumentSnapshot> listDoc) {
+        transactions = new ArrayList<Transaction>();
+        for (DocumentSnapshot doc : listDoc) {
+            transactions.add(new Transaction((long)doc.get("Date"), String.valueOf(doc.get("User")), String.valueOf(doc.get("Montant"))));
+        }
     }
 
 }
