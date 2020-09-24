@@ -1,0 +1,55 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:fontFamily="sans-serif-black"
+        android:text="Nouvelle transaction"
+        android:background="#FFFFBB33"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/oceane"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Océane"
+            android:textSize="20sp"
+            android:textColor="#FF00DDFF"
+            android:fontFamily="sans-serif-black"/>
+
+        <Switch
+            android:id="@+id/switchUser"
+            android:textColor="@android:color/holo_blue_bright"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/mathieu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mathieu"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif-black"/>
+
+    </LinearLayout>
+    <EditText
+        android:id="@+id/montant"
+        android:inputType="numberDecimal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="sans-serif"
+        android:hint="Montant"/>
+</LinearLayout>
