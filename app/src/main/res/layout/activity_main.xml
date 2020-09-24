@@ -53,10 +53,11 @@
                         android:textColor="#FFFFFF"/>
 
                     <TextView
+                        android:id="@+id/montantOcé"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:text="50€"
+                        android:text="0€"
                         android:textSize="25sp"
                         android:fontFamily="sans-serif-black"
                         android:textColor="#FFFFFF"/>
@@ -86,10 +87,11 @@
                         android:textColor="#FFFFFF"/>
 
                     <TextView
+                        android:id="@+id/montantMath"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:text="50€"
+                        android:text="0€"
                         android:textSize="25sp"
                         android:fontFamily="sans-serif-black"
                         android:textColor="#FFFFFF"/>

@@ -31,6 +31,7 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
             viewHolder = new TransactionViewHolder();
             viewHolder.pseudo = (TextView) convertView.findViewById(R.id.pseudo);
             viewHolder.price = (TextView) convertView.findViewById(R.id.price);
+            viewHolder.date = (TextView) convertView.findViewById(R.id.date);
             convertView.setTag(viewHolder);
         }
 
@@ -40,6 +41,7 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
         //il ne reste plus qu'à remplir notre vue
         viewHolder.pseudo.setText(transaction.getPseudo());
         viewHolder.price.setText(transaction.getPrice());
+        viewHolder.date.setText(transaction.getDate());
 
         return convertView;
     }
@@ -47,5 +49,6 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
     private class TransactionViewHolder{
         public TextView pseudo;
         public TextView price;
+        public TextView date;
     }
 }

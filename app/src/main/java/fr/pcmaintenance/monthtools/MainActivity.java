@@ -30,7 +30,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private AlertDialog alert;
     private FirebaseFirestore db;
     private List<String> month;
+    private List<String> week;
     private int transactionID = 1;
     private float sumMath = 0;
     private float sumOceane = 0;
@@ -59,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        month = new ArrayList<String>();
+        month = new ArrayList<>();
         month.add("Janvier");
         month.add("Février");
         month.add("Mars");
@@ -72,6 +76,14 @@ public class MainActivity extends AppCompatActivity {
         month.add("Octobre");
         month.add("Novembre");
         month.add("Décembre");
+        week = new ArrayList<>();
+        week.add("Lundi");
+        week.add("Mardi");
+        week.add("Mercredi");
+        week.add("Jeudi");
+        week.add("Vendredi");
+        week.add("Samedi");
+        week.add("Dimanche");
 
         TextView mois = findViewById(R.id.Mois);
         mois.setText(month.get(Calendar.getInstance().get(Calendar.MONTH)));
@@ -91,14 +103,15 @@ public class MainActivity extends AppCompatActivity {
                                 TextView montant = alert.findViewById(R.id.montant);
                                 Switch sw = alert.findViewById(R.id.switchUser);
                                 Map<String, Object> newTrans = new HashMap<>();
-                                newTrans.put("Date", Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+                                String date = week.get(Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 2) + " " + Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+                                newTrans.put("Date", date);
                                 if (sw.isChecked()){
-                                    transactions.add(new Transaction(Calendar.getInstance().get(Calendar.DAY_OF_MONTH), String.valueOf(mathieu.getText()), String.valueOf(montant.getText())));
+                                    transactions.add(new Transaction(date, String.valueOf(mathieu.getText()), String.valueOf(montant.getText()), transactionID));
                                     newTrans.put("User", String.valueOf(mathieu.getText()));
                                     newTrans.put("Montant", String.valueOf(montant.getText()));
                                     sumMath += Float.parseFloat(String.valueOf(montant.getText()));
                                 }else{
-                                    transactions.add(new Transaction(Calendar.getInstance().get(Calendar.DAY_OF_MONTH), String.valueOf(oceane.getText()), String.valueOf(montant.getText())));
+                                    transactions.add(new Transaction(date, String.valueOf(oceane.getText()), String.valueOf(montant.getText()), transactionID));
                                     newTrans.put("User", String.valueOf(oceane.getText()));
                                     newTrans.put("Montant", String.valueOf(montant.getText()));
                                     sumOceane += Float.parseFloat( String.valueOf(montant.getText()));
@@ -123,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
                                             }
                                         });
                                 transactionID++;
+                                actuMontant();
                             }
                         })
                         .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
@@ -176,10 +190,19 @@ public class MainActivity extends AppCompatActivity {
                 sumOceane = Float.parseFloat(String.valueOf(doc.get("Océane")));
                 sumMath = Float.parseFloat(String.valueOf(doc.get("Mathieu")));
             }else{
-                transactions.add(new Transaction((long)doc.get("Date"), String.valueOf(doc.get("User")), String.valueOf(doc.get("Montant"))));
+                transactions.add(new Transaction(String.valueOf(doc.get("Date")), String.valueOf(doc.get("User")), String.valueOf(doc.get("Montant")), Integer.parseInt(doc.getId())));
                 transactionID++;
             }
         }
+        Collections.sort(transactions);
+        actuMontant();
+    }
+
+    private void actuMontant(){
+        TextView oce = findViewById(R.id.montantOcé);
+        TextView math = findViewById(R.id.montantMath);
+        oce.setText(String.valueOf(sumOceane) + "€");
+        math.setText(String.valueOf(sumMath) + "€");
     }
 
 }

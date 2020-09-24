@@ -1,21 +1,23 @@
 package fr.pcmaintenance.monthtools.Modele;
 
-public class Transaction {
-    private long date;
+public class Transaction implements Comparable<Transaction>{
+    private String date;
     private String pseudo;
     private String price;
+    private int id;
 
-    public Transaction(long date, String pseudo, String price){
+    public Transaction(String date, String pseudo, String price, int id){
         this.date = date;
         this.pseudo = pseudo;
         this.price = price;
+        this.id = id;
     }
 
-    public long getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(long date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -33,5 +35,19 @@ public class Transaction {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public int compareTo(Transaction transaction) {
+        int  compareQuantity = transaction.getId();
+        return this.id - compareQuantity;
     }
 }

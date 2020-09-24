@@ -2,24 +2,39 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent" android:layout_height="match_parent" android:padding="10dp" >
 
     <TextView
-        android:id="@+id/pseudo"
+        android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:textStyle="bold"
         android:fontFamily="sans-serif-black"
         android:textColor="#FFFFFF"
-        tools:text="Pseudo" />
+        tools:text="Jeudi 24" />
 
-    <TextView
-        android:textAlignment="textEnd"
-        android:id="@+id/price"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-black"
-        android:textColor="#FFFFFF"
-        android:layout_alignLeft="@+id/pseudo"
-        android:layout_below="@+id/pseudo"
-        tools:text="Texte de mon tweet" />
+        android:layout_alignLeft="@+id/date"
+        android:layout_below="@+id/date">
+
+        <TextView
+            android:id="@+id/pseudo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Pseudo"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-black"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:textAlignment="textEnd"
+            android:id="@+id/price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:textColor="#FFFFFF"
+            tools:text="Texte de mon tweet" />
+
+    </LinearLayout>
 
 </RelativeLayout>
