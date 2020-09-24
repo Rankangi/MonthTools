@@ -47,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private List<String> month;
     private int transactionID = 1;
+    private float sumMath = 0;
+    private float sumOceane = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,12 +96,18 @@ public class MainActivity extends AppCompatActivity {
                                     transactions.add(new Transaction(Calendar.getInstance().get(Calendar.DAY_OF_MONTH), String.valueOf(mathieu.getText()), String.valueOf(montant.getText())));
                                     newTrans.put("User", String.valueOf(mathieu.getText()));
                                     newTrans.put("Montant", String.valueOf(montant.getText()));
+                                    sumMath += Float.parseFloat(String.valueOf(montant.getText()));
                                 }else{
                                     transactions.add(new Transaction(Calendar.getInstance().get(Calendar.DAY_OF_MONTH), String.valueOf(oceane.getText()), String.valueOf(montant.getText())));
                                     newTrans.put("User", String.valueOf(oceane.getText()));
                                     newTrans.put("Montant", String.valueOf(montant.getText()));
+                                    sumOceane += Float.parseFloat( String.valueOf(montant.getText()));
                                 }
-
+                                Map<String, Object> newSomme = new HashMap<>();
+                                newSomme.put("Océane",String.valueOf(sumOceane));
+                                newSomme.put("Mathieu",String.valueOf(sumMath));
+                                db.collection("Transactions").document(String.valueOf(Calendar.getInstance().get(Calendar.YEAR))).collection(month.get(Calendar.getInstance().get(Calendar.MONTH))).document("0Somme")
+                                        .set(newSomme);
                                 db.collection("Transactions").document(String.valueOf(Calendar.getInstance().get(Calendar.YEAR))).collection(month.get(Calendar.getInstance().get(Calendar.MONTH))).document(String.valueOf(transactionID))
                                         .set(newTrans)
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -164,8 +172,13 @@ public class MainActivity extends AppCompatActivity {
     private void genererTransactions(List<DocumentSnapshot> listDoc) {
         transactions = new ArrayList<Transaction>();
         for (DocumentSnapshot doc : listDoc) {
-            transactions.add(new Transaction((long)doc.get("Date"), String.valueOf(doc.get("User")), String.valueOf(doc.get("Montant"))));
-            transactionID++;
+            if (doc.getId().equals("0Somme")){
+                sumOceane = Float.parseFloat(String.valueOf(doc.get("Océane")));
+                sumMath = Float.parseFloat(String.valueOf(doc.get("Mathieu")));
+            }else{
+                transactions.add(new Transaction((long)doc.get("Date"), String.valueOf(doc.get("User")), String.valueOf(doc.get("Montant"))));
+                transactionID++;
+            }
         }
     }
 
